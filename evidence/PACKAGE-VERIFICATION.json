@@ -1,0 +1,32 @@
+{
+  "artifact_sha256": {
+    "wheelsuture-0.1.0a1-py3-none-any.whl": "2b26dac9b5d03fb41203f5dbd00faeeb21e1f74bd6b4e370fe2defc109a11fcc",
+    "wheelsuture-0.1.0a1.tar.gz": "106030d2a8964075ec684065158b57e0761c5cd381fa966e57681a3848a6843a"
+  },
+  "commands_recorded": 189,
+  "determinism": "all 67 report/repair/HTML/inventory files identical over 3 cwd/hash-seed/locale/timezone variants and all installed phases",
+  "example_plans": 17,
+  "fixture_execution": "forbidden",
+  "fixture_wheels": 16,
+  "logical_wheel_contents_identical": true,
+  "observed_python_versions": [
+    "3.12.14",
+    "3.13.5"
+  ],
+  "phases": [
+    "wheel312",
+    "sdist312",
+    "wheel313"
+  ],
+  "rebuilt_wheel_sha256": "becf23688a540387b838c82d07067edcb857e8a94e69b7386d9951adbbb308d4",
+  "receipt_files_verified": 391,
+  "runtime_isolation": "temporary venvs without pip; only WheelSuture and pinned packaging installed",
+  "schemas": 6,
+  "status": "passed",
+  "tests": "complete unittest suite in each installed phase",
+  "tests_per_phase": 198,
+  "unrun_python_matrix_versions": [
+    "3.11",
+    "3.14"
+  ]
+}

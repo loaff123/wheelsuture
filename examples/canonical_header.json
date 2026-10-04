@@ -1,0 +1,22 @@
+{
+  "desired": [
+    "header_name"
+  ],
+  "initial": [
+    {
+      "id": "setup_0",
+      "op": "install",
+      "wheel": "header_name"
+    }
+  ],
+  "profile": "pip-26.2.1-cpython-3.12.14-posix-venv-nocompile-v1",
+  "schema_version": 1,
+  "transition": [],
+  "wheels": [
+    {
+      "id": "header_name",
+      "path": "wheels/header_name/qual_mixed_name-1.0-py3-none-any.whl",
+      "sha256": "996bab4200c4e3e911849ea9f2a1292d7f3039a78b19c4cdf94134ec15d73fe9"
+    }
+  ]
+}

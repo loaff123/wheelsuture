@@ -1,0 +1,9 @@
+# Exact tooling used by the local qualification run; installer is oracle-only.
+packaging==26.3
+build==1.4.0
+pyproject_hooks==1.2.0
+setuptools==84.0.0
+wheel==0.47.0
+jsonschema==4.26.0
+installer==0.7.0
+ruff==0.16.10

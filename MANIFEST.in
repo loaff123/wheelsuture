@@ -1,0 +1,27 @@
+include LICENSE README.md THIRD_PARTY.md
+recursive-include src/wheelsuture/schemas *.json
+recursive-include src/wheelsuture/examples *.json *.whl
+recursive-include examples *.json *.whl
+recursive-include tests *.py *.json
+recursive-include docs *.md
+include qualification/build_fixtures.py qualification/oracle.py qualification/run_oracles.py qualification/installer_driver.py qualification/product_driver.py qualification/test_oracle.py qualification/verify_receipts.py qualification/README.md qualification/capacity.py qualification/test_capacity.py
+prune qualification/evidence
+prune qualification/tools
+prune qualification/tooling
+prune qualification/package-tooling
+prune qualification/capacity-runs
+prune qualification/fixtures
+prune build
+prune dist
+prune .venv
+
+recursive-include licenses *
+include qualification/package-toolchain-sha256.json
+
+include requirements-test.txt qualification/package_check.py
+
+include qualification/final-runtime-sha256.json
+
+include qualification/QUALIFICATION_REPORT.md qualification/bundle_evidence.py
+
+include qualification/REPRODUCING.md

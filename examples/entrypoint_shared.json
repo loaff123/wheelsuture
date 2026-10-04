@@ -1,0 +1,38 @@
+{
+  "desired": [
+    "entry_a"
+  ],
+  "initial": [
+    {
+      "id": "setup_0",
+      "op": "install",
+      "wheel": "entry_a"
+    },
+    {
+      "id": "setup_1",
+      "op": "install",
+      "wheel": "entry_b"
+    }
+  ],
+  "profile": "pip-26.2.1-cpython-3.12.14-posix-venv-nocompile-v1",
+  "schema_version": 1,
+  "transition": [
+    {
+      "id": "change_0",
+      "op": "remove",
+      "wheel": "entry_b"
+    }
+  ],
+  "wheels": [
+    {
+      "id": "entry_a",
+      "path": "wheels/entry_a/qual_entry_a-1.0-py3-none-any.whl",
+      "sha256": "4038fa5ed25f6b298f332a55d72ae62a6e87804b2274ba4efa50e79172c40dbd"
+    },
+    {
+      "id": "entry_b",
+      "path": "wheels/entry_b/qual_entry_b-1.0-py3-none-any.whl",
+      "sha256": "b38ad8d3b2fdc95a1f8409abcfc382a32e59e48b6e60f2582982fb400fec0745"
+    }
+  ]
+}

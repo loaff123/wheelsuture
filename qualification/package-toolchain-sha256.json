@@ -1,0 +1,8 @@
+{
+  "build-1.4.0-py3-none-any.whl": "6a07c1b8eb6f2b311b96fcbdbce5dab5fe637ffda0fd83c9cac622e927501596",
+  "packaging-26.3-py3-none-any.whl": "d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c",
+  "pyproject_hooks-1.2.0-py3-none-any.whl": "9e5c6bfa8dcc30091c74b0cf803c81fdd29d94f01992a7707bc97babb1141913",
+  "ruff-0.16.10-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl": "f33f43a864a8483eebd160e713336c8bab02c934feaff0a33cf5ccb41546d09a",
+  "setuptools-84.0.0-py3-none-any.whl": "51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670",
+  "wheel-0.47.0-py3-none-any.whl": "212281cab4dff978f6cedd499cd893e1f620791ca6ff7107cf270781e587eced"
+}

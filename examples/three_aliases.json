@@ -1,0 +1,49 @@
+{
+  "desired": [
+    "alias_root",
+    "alias_data"
+  ],
+  "initial": [
+    {
+      "id": "setup_0",
+      "op": "install",
+      "wheel": "alias_root"
+    },
+    {
+      "id": "setup_1",
+      "op": "install",
+      "wheel": "alias_plat"
+    },
+    {
+      "id": "setup_2",
+      "op": "install",
+      "wheel": "alias_data"
+    }
+  ],
+  "profile": "pip-26.2.1-cpython-3.12.14-posix-venv-nocompile-v1",
+  "schema_version": 1,
+  "transition": [
+    {
+      "id": "change_0",
+      "op": "remove",
+      "wheel": "alias_plat"
+    }
+  ],
+  "wheels": [
+    {
+      "id": "alias_root",
+      "path": "wheels/alias_root/qual_alias_root-1.0-py3-none-any.whl",
+      "sha256": "f9ec09339b257a580bb2d85faec027585b765bef0b8698758c16545d8f7bbf6a"
+    },
+    {
+      "id": "alias_data",
+      "path": "wheels/alias_data/qual_alias_data-1.0-py3-none-any.whl",
+      "sha256": "403da0d4692bee0270edc0a2e2cbfe632afab6421197070196cc4314a825df21"
+    },
+    {
+      "id": "alias_plat",
+      "path": "wheels/alias_plat/qual_alias_plat-1.0-py3-none-any.whl",
+      "sha256": "3d01b864ccabfac1c24ef86711523ed83b870e841296e40c4edf6fadee8d8639"
+    }
+  ]
+}

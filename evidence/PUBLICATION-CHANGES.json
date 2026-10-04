@@ -1,0 +1,34 @@
+[
+  {
+    "archive": "capacity-evidence.zip",
+    "change": "Project-root placeholder in traceback text only; receipt/manifest hashes rebound; runtime and measured outcomes unchanged",
+    "original_sha256": "f6617c678969b27e166b07ffab39a0cc3867532a3c271f272179f05f4279cca5",
+    "privacy_redacted_traceback_files": [
+      "capacity/archive_32m_plus1.json",
+      "capacity/claims_4097.json",
+      "capacity/decoded_32m_plus1.json",
+      "capacity/entries_4097.json",
+      "capacity/events_20001.json",
+      "capacity/findings_4097.json",
+      "capacity/member_4m_plus1.json",
+      "capacity/operations_257.json",
+      "capacity/path_mapped_1025.json",
+      "capacity/path_text_1m_plus1.json",
+      "capacity/report_32m_plus1.json",
+      "capacity/report_combined_over.json",
+      "capacity/wheels_33.json"
+    ]
+  },
+  {
+    "archive": "qualified-rc2-evidence.zip",
+    "change": "Removed internal role wording from qualification report; archive manifest rebound; source/harness/observations unchanged",
+    "original_sha256": "19237f63c32c38d9a48f28c31fcd808adc83c79c6c102fff4d61fb333cafa51c"
+  },
+  {
+    "archive": "package-evidence.zip",
+    "change": "Omitted original sdist because its historical design contains internal workflow text; retained original artifact hash/content receipts and unchanged tested wheels; remaining evidence manifest rebound",
+    "omitted_artifact": "package-qualified-001/artifacts/wheelsuture-0.1.0a1.tar.gz",
+    "omitted_artifact_sha256": "106030d2a8964075ec684065158b57e0761c5cd381fa966e57681a3848a6843a",
+    "original_sha256": "655fc593792d711bfa70857b25b7bedc8a4fe5661f872f5c9d547d74e1861fc3"
+  }
+]

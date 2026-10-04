@@ -1,0 +1,22 @@
+{
+  "desired": [
+    "mapping"
+  ],
+  "initial": [
+    {
+      "id": "setup_0",
+      "op": "install",
+      "wheel": "mapping"
+    }
+  ],
+  "profile": "pip-26.2.1-cpython-3.12.14-posix-venv-nocompile-v1",
+  "schema_version": 1,
+  "transition": [],
+  "wheels": [
+    {
+      "id": "mapping",
+      "path": "wheels/mapping/qual_mapping-1.0-py3-none-any.whl",
+      "sha256": "82651bf80ac083ac24a427dc12b6e929a399a796b7ef5b5c91aea6878015e7f6"
+    }
+  ]
+}

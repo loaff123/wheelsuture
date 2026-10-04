@@ -1,0 +1,1349 @@
+{
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "document_type": {
+      "const": "analysis_report"
+    },
+    "model_revision": {
+      "const": "wheelsuture-model-v1"
+    },
+    "profile": {
+      "const": "pip-26.2.1-cpython-3.12.14-posix-venv-nocompile-v1"
+    },
+    "case_id": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "input_sha256": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "status": {
+      "enum": [
+        "preserved",
+        "broken",
+        "incomplete"
+      ]
+    },
+    "complete": {
+      "type": "boolean"
+    },
+    "coverage": {
+      "$ref": "#/$defs/coverage"
+    },
+    "wheels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/wheel"
+      },
+      "minItems": 0,
+      "maxItems": 1000
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/operation"
+      },
+      "minItems": 0,
+      "maxItems": 12000
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/event"
+      },
+      "minItems": 0,
+      "maxItems": 2000000
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/finding"
+      },
+      "minItems": 0,
+      "maxItems": 100000
+    },
+    "final_state": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/state"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "desired": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 64,
+        "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+      },
+      "minItems": 0,
+      "maxItems": 1000,
+      "uniqueItems": true
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/diagnostic"
+      },
+      "minItems": 0,
+      "maxItems": 1000
+    },
+    "resource_usage": {
+      "$ref": "#/$defs/usage"
+    },
+    "evidence_sha256": {
+      "type": "string",
+      "minLength": 64,
+      "maxLength": 64,
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "effective_limits": {
+      "$ref": "#/$defs/limits"
+    }
+  },
+  "required": [
+    "schema_version",
+    "document_type",
+    "model_revision",
+    "profile",
+    "case_id",
+    "input_sha256",
+    "status",
+    "complete",
+    "coverage",
+    "wheels",
+    "operations",
+    "events",
+    "findings",
+    "final_state",
+    "desired",
+    "diagnostics",
+    "resource_usage",
+    "evidence_sha256",
+    "effective_limits"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:wheelsuture:report:1",
+  "title": "WheelSuture analysis report v1",
+  "$defs": {
+    "signature": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "bytes"
+            },
+            "sha256": {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "size": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 268435456
+            }
+          },
+          "required": [
+            "kind",
+            "sha256",
+            "size"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "rewritten_script"
+            },
+            "tail_sha256": {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            "tail_size": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 268435456
+            },
+            "interpreter_token": {
+              "const": "profile-interpreter"
+            },
+            "profile": {
+              "const": "pip-26.2.1-cpython-3.12.14-posix-venv-nocompile-v1"
+            }
+          },
+          "required": [
+            "kind",
+            "tail_sha256",
+            "tail_size",
+            "interpreter_token",
+            "profile"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "entry_point"
+            },
+            "group": {
+              "enum": [
+                "console_scripts",
+                "gui_scripts"
+              ]
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255
+            },
+            "module": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            "attribute": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            "profile": {
+              "const": "pip-26.2.1-cpython-3.12.14-posix-venv-nocompile-v1"
+            }
+          },
+          "required": [
+            "kind",
+            "group",
+            "name",
+            "module",
+            "attribute",
+            "profile"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "control"
+            },
+            "control": {
+              "enum": [
+                "RECORD",
+                "INSTALLER",
+                "REQUESTED",
+                "direct_url.json"
+              ]
+            },
+            "wheel_sha256": {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "required": [
+            "kind",
+            "control",
+            "wheel_sha256"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "diagnostic": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[a-z][a-z0-9_]*$"
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        },
+        "wheel_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "operation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 64,
+              "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "path": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "wheel_id",
+        "operation_id",
+        "path"
+      ],
+      "additionalProperties": false
+    },
+    "claim": {
+      "type": "object",
+      "properties": {
+        "claim_id": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "path_id": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "wheel_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "destination": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "member": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "kind": {
+          "enum": [
+            "copied",
+            "rewritten_script",
+            "entry_point",
+            "control"
+          ]
+        },
+        "signature": {
+          "$ref": "#/$defs/signature"
+        },
+        "checked": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "claim_id",
+        "path_id",
+        "wheel_id",
+        "destination",
+        "member",
+        "kind",
+        "signature",
+        "checked"
+      ],
+      "additionalProperties": false
+    },
+    "wheel": {
+      "type": "object",
+      "properties": {
+        "wheel_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "source_sha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "canonical_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "dist_info": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "root_is_purelib": {
+          "type": "boolean"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 255
+          },
+          "minItems": 1,
+          "maxItems": 128,
+          "uniqueItems": true
+        },
+        "member_count": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "decoded_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967296
+        },
+        "claims": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/claim"
+          },
+          "minItems": 0,
+          "maxItems": 100000
+        },
+        "deletion_paths": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 0,
+          "maxItems": 100000,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "wheel_id",
+        "source_sha256",
+        "name",
+        "canonical_name",
+        "version",
+        "dist_info",
+        "root_is_purelib",
+        "tags",
+        "member_count",
+        "decoded_bytes",
+        "claims",
+        "deletion_paths"
+      ],
+      "additionalProperties": false
+    },
+    "operation": {
+      "type": "object",
+      "properties": {
+        "operation_id": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "phase": {
+          "enum": [
+            "initial",
+            "transition",
+            "repair"
+          ]
+        },
+        "index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "source": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                },
+                "op": {
+                  "const": "install"
+                },
+                "wheel": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                }
+              },
+              "required": [
+                "id",
+                "op",
+                "wheel"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                },
+                "op": {
+                  "const": "remove"
+                },
+                "wheel": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                }
+              },
+              "required": [
+                "id",
+                "op",
+                "wheel"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                },
+                "op": {
+                  "const": "reinstall"
+                },
+                "wheel": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                }
+              },
+              "required": [
+                "id",
+                "op",
+                "wheel"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                },
+                "op": {
+                  "const": "replace"
+                },
+                "from": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                },
+                "to": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+                }
+              },
+              "required": [
+                "id",
+                "op",
+                "from",
+                "to"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "operation_id",
+        "phase",
+        "index",
+        "source"
+      ],
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "properties": {
+        "event_id": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "operation_id": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "ordinal": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000000
+        },
+        "action": {
+          "enum": [
+            "write",
+            "delete",
+            "delete_absent",
+            "control_write",
+            "control_delete",
+            "control_delete_absent"
+          ]
+        },
+        "path_id": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "destination": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "wheel_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "claim_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "before": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/signature"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "after": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/signature"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "prior_event_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "event_id",
+        "operation_id",
+        "ordinal",
+        "action",
+        "path_id",
+        "destination",
+        "wheel_id",
+        "claim_id",
+        "before",
+        "after",
+        "prior_event_id"
+      ],
+      "additionalProperties": false
+    },
+    "finding": {
+      "type": "object",
+      "properties": {
+        "finding_id": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "boundary_operation_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "phase": {
+          "enum": [
+            "initial",
+            "transition",
+            "final",
+            "repair"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "missing",
+            "displaced",
+            "identity_missing",
+            "identity_extra",
+            "identity_mismatch",
+            "desired_conflict",
+            "prefix_conflict"
+          ]
+        },
+        "retained": {
+          "type": "boolean"
+        },
+        "wheel_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 64,
+            "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "uniqueItems": true
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "minItems": 0,
+          "maxItems": 100000,
+          "uniqueItems": true
+        },
+        "path_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "destination": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 1024
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "expected": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/signature"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actual": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/signature"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cause_event_id": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 64,
+              "maxLength": 64,
+              "pattern": "^[0-9a-f]{64}$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "finding_id",
+        "boundary_operation_id",
+        "phase",
+        "kind",
+        "retained",
+        "wheel_ids",
+        "claim_ids",
+        "path_id",
+        "destination",
+        "expected",
+        "actual",
+        "cause_event_id"
+      ],
+      "additionalProperties": false
+    },
+    "identity": {
+      "type": "object",
+      "properties": {
+        "canonical_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 255
+        },
+        "wheel_id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^[A-Za-z][A-Za-z0-9_-]*$"
+        },
+        "sha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "canonical_name",
+        "wheel_id",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "slot": {
+      "type": "object",
+      "properties": {
+        "path_id": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "destination": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 1024
+        },
+        "signature": {
+          "$ref": "#/$defs/signature"
+        },
+        "last_event_id": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "path_id",
+        "destination",
+        "signature",
+        "last_event_id"
+      ],
+      "additionalProperties": false
+    },
+    "state": {
+      "type": "object",
+      "properties": {
+        "identities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/identity"
+          },
+          "minItems": 0,
+          "maxItems": 1000
+        },
+        "slots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/slot"
+          },
+          "minItems": 0,
+          "maxItems": 100000
+        },
+        "state_sha256": {
+          "type": "string",
+          "minLength": 64,
+          "maxLength": 64,
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "identities",
+        "slots",
+        "state_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "coverage": {
+      "type": "object",
+      "properties": {
+        "assertion": {
+          "const": "declared_final_payload_and_provider_requirements"
+        },
+        "included": {
+          "const": [
+            "copied_regular_payloads",
+            "rewritten_script_tokens",
+            "entry_point_provider_tokens"
+          ]
+        },
+        "excluded": {
+          "const": [
+            "generated_control_bytes",
+            "bytecode",
+            "permissions",
+            "directory_presence",
+            "import_correctness",
+            "dependencies",
+            "abi",
+            "application_behavior",
+            "live_environment",
+            "concurrent_installers"
+          ]
+        }
+      },
+      "required": [
+        "assertion",
+        "included",
+        "excluded"
+      ],
+      "additionalProperties": false
+    },
+    "usage": {
+      "type": "object",
+      "properties": {
+        "wheels": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "entries": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "archive_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967296
+        },
+        "decoded_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967296
+        },
+        "member_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 268435456
+        },
+        "expanded_events": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000000
+        },
+        "mapped_claims": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "deletion_paths": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "findings": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "state_slots": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "central_directory_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 33554432
+        },
+        "path_text_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16777216
+        },
+        "plan_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8388608
+        },
+        "record_member_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16777216
+        },
+        "metadata_member_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2097152
+        },
+        "user_operations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "report_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 134217728
+        },
+        "json_depth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        }
+      },
+      "required": [
+        "wheels",
+        "entries",
+        "archive_bytes",
+        "decoded_bytes",
+        "member_bytes",
+        "expanded_events",
+        "mapped_claims",
+        "deletion_paths",
+        "findings",
+        "state_slots",
+        "central_directory_bytes",
+        "path_text_bytes",
+        "plan_bytes",
+        "record_member_bytes",
+        "metadata_member_bytes",
+        "user_operations",
+        "report_bytes",
+        "json_depth"
+      ],
+      "additionalProperties": false
+    },
+    "witness": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "different_bytes",
+            "different_rewritten_tail",
+            "different_provider",
+            "file_directory_prefix"
+          ]
+        },
+        "claim_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 64,
+            "maxLength": 64,
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "uniqueItems": true
+        },
+        "destinations": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "minItems": 1,
+          "maxItems": 2
+        },
+        "explanation": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 4096
+        }
+      },
+      "required": [
+        "kind",
+        "claim_ids",
+        "destinations",
+        "explanation"
+      ],
+      "additionalProperties": false
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "wheels": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1000
+        },
+        "entries": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "archive_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967296
+        },
+        "decoded_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967296
+        },
+        "member_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 268435456
+        },
+        "expanded_events": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2000000
+        },
+        "mapped_claims": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "deletion_paths": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "findings": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "state_slots": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100000
+        },
+        "central_directory_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 33554432
+        },
+        "path_text_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16777216
+        },
+        "plan_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 8388608
+        },
+        "record_member_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16777216
+        },
+        "metadata_member_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2097152
+        },
+        "user_operations": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 10000
+        },
+        "report_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 134217728
+        },
+        "json_depth": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 32
+        },
+        "error_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1048576
+        }
+      },
+      "required": [
+        "wheels",
+        "entries",
+        "archive_bytes",
+        "decoded_bytes",
+        "member_bytes",
+        "expanded_events",
+        "mapped_claims",
+        "deletion_paths",
+        "findings",
+        "state_slots",
+        "central_directory_bytes",
+        "path_text_bytes",
+        "plan_bytes",
+        "record_member_bytes",
+        "metadata_member_bytes",
+        "user_operations",
+        "report_bytes",
+        "json_depth",
+        "error_bytes"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "preserved",
+              "broken"
+            ]
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "complete": {
+            "const": true
+          },
+          "final_state": {
+            "$ref": "#/$defs/state"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "incomplete"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "complete": {
+            "const": false
+          },
+          "diagnostics": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

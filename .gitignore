@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+qualification/evidence/
+qualification/tools/
+qualification/fixtures/
+qualification/capacity-runs/
+
+qualification/tooling/
+qualification/package-tooling/
+qualification/qualified-*.zip
+.qualification-controller/
